@@ -1,0 +1,4111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospecção Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* System Fonts & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Google Material Colors */
+            --primary: #1a73e8;
+            --primary-hover: #1557b0;
+            --primary-light: #4285f4;
+            --success: #34a853;
+            --warning: #fbbc04;
+            --danger: #ea4335;
+            
+            /* Apple-inspired Light Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --bg-tertiary: #f2f2f7;
+            --bg-elevated: #ffffff;
+            --bg-card: #ffffff;
+            
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-tertiary: #a1a1a6;
+            
+            --border-primary: #d2d2d7;
+            --border-secondary: #e5e5ea;
+            
+            /* Shadows - Apple style */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+            
+            /* Transitions */
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Spacing Scale */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        [data-theme="dark"] {
+            /* Apple Dark Mode - Confortável */
+            --bg-primary: #1c1c1e;
+            --bg-secondary: #2c2c2e;
+            --bg-tertiary: #3a3a3c;
+            --bg-elevated: #2c2c2e;
+            --bg-card: #2c2c2e;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #8e8e93;
+            --text-tertiary: #636366;
+            
+            --border-primary: #48484a;
+            --border-secondary: #38383a;
+            
+            /* Shadows mais sutis no dark */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5), 0 10px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Typography System */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: color var(--transition-normal), background-color var(--transition-normal);
+            padding-bottom: var(--space-20); /* Espaço no final da página */
+        }
+
+        /* Layout System */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-secondary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all var(--transition-normal);
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(28, 28, 30, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            gap: var(--space-6);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: opacity var(--transition-fast);
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 40px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-ghost.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-ghost.active:hover {
+            background: var(--primary-hover);
+            color: white;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .btn-small {
+            padding: var(--space-2) var(--space-3);
+            font-size: 13px;
+            border-radius: var(--radius-sm);
+            height: 36px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
+            transform: scale(1.05);
+        }
+
+        /* KPI Dashboard */
+        .kpis-section {
+            padding: var(--space-6) 0;
+        }
+
+        .kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--space-5);
+        }
+
+        /* KPI Cards */
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .kpi-card.success::before { background: var(--success); }
+        .kpi-card.warning::before { background: var(--warning); }
+        .kpi-card.danger::before { background: var(--danger); }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-primary);
+        }
+
+        .kpi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            position: relative;
+        }
+
+        .kpi-icon.total { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); }
+        .kpi-icon.hot { background: linear-gradient(135deg, var(--danger) 0%, #ff5722 100%); }
+        .kpi-icon.pending { background: linear-gradient(135deg, var(--warning) 0%, #ff9800 100%); }
+        .kpi-icon.success { background: linear-gradient(135deg, var(--success) 0%, #4caf50 100%); }
+
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: var(--space-3);
+        }
+
+        .kpi-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .kpi-trend.up {
+            background: rgba(52, 168, 83, 0.1);
+            color: var(--success);
+        }
+
+        .kpi-trend.down {
+            background: rgba(234, 67, 53, 0.1);
+            color: var(--danger);
+        }
+
+        .kpi-trend.neutral {
+            background: var(--bg-tertiary);
+            color: var(--text-tertiary);
+        }
+
+        /* Modal Simples de KPI */
+        .kpi-simple-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: var(--space-6);
+        }
+
+        .kpi-simple-modal.active {
+            display: flex;
+            animation: modalFadeIn var(--transition-normal) ease-out;
+        }
+
+        .kpi-simple-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideUp var(--transition-normal) ease-out;
+        }
+
+        .kpi-simple-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+        }
+
+        .kpi-simple-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .kpi-simple-metric {
+            text-align: center;
+            padding: var(--space-6) 0;
+            border-bottom: 1px solid var(--border-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        .kpi-simple-number {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: var(--space-2);
+        }
+
+        .kpi-simple-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .kpi-simple-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .kpi-simple-stat {
+            text-align: center;
+            padding: var(--space-4);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+        }
+
+        .kpi-simple-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--space-1);
+            color: var(--text-primary);
+        }
+
+        .kpi-simple-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Dashboard Inteligente */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-5);
+            margin-bottom: var(--space-8);
+        }
+
+        .dashboard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            transition: all var(--transition-fast);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .dashboard-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+        }
+
+        .dashboard-icon.funil { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); }
+        .dashboard-icon.esquecidos { background: linear-gradient(135deg, var(--warning) 0%, #ff9800 100%); }
+        .dashboard-icon.perdendo { background: linear-gradient(135deg, var(--danger) 0%, #d32f2f 100%); }
+
+        .dashboard-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Quick Actions Bar */
+        .quick-actions {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-5);
+            margin-bottom: var(--space-5);
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            min-height: 60px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quick-action-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .quick-action-item:hover {
+            transform: scale(1.05);
+        }
+
+        .quick-action-number {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .quick-action-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Filters Section Compacta */
+        .filters-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin-bottom: var(--space-5);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition-fast);
+        }
+
+        .filters-section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .filters-main-row {
+            display: flex;
+            gap: var(--space-4);
+            align-items: center;
+        }
+
+        .filters-secondary-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+            gap: var(--space-4);
+            align-items: end;
+            margin-top: var(--space-5);
+            padding-top: var(--space-5);
+            border-top: 1px solid var(--border-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 140px;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .filter-badge {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .filter-badge.active {
+            display: block;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: var(--space-1);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: var(--space-3);
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 769px) {
+            .filters-secondary-row {
+                display: grid;
+                grid-template-columns: 2fr 1.3fr 1.3fr 1.3fr auto;
+                gap: var(--space-5);
+                align-items: end;
+            }
+            
+            .filter-actions {
+                margin-top: 0;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .filters-secondary-row {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-4);
+            }
+            
+            .filter-group:first-child {
+                grid-column: span 2;
+            }
+            
+            .filter-actions {
+                grid-column: span 2;
+                justify-content: center;
+                margin-top: var(--space-4);
+            }
+        }
+
+        .search-container {
+            position: relative;
+            flex: 2;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 46px;
+            padding: 0 var(--space-12) 0 var(--space-5);
+            border: 2px solid var(--border-primary);
+            border-radius: 23px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-elevated);
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+            transform: scale(1.02);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+            position: relative;
+            height: 42px;
+        }
+
+        .chip:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-primary);
+            transform: translateY(-1px);
+        }
+
+        .chip:active {
+            transform: scale(0.98);
+        }
+
+        .chip.active {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .chip-counter {
+            background: var(--danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: var(--space-2);
+            min-width: 20px;
+            text-align: center;
+            animation: scaleIn 0.2s ease;
+        }
+
+        .chip.active .chip-counter {
+            background: white;
+            color: var(--primary);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Table Otimizada */
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--space-10);
+        }
+
+        .cliente-row {
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            border-bottom: 1px solid var(--border-secondary);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .cliente-row:hover {
+            background: var(--bg-secondary);
+        }
+
+        .cliente-row:last-child {
+            border-bottom: none;
+        }
+
+        .cliente-info {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: var(--space-4);
+            align-items: center;
+        }
+
+        .cliente-nome-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .cliente-nome {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .cliente-tags {
+            display: flex;
+            gap: var(--space-1);
+            flex-wrap: wrap;
+        }
+
+        .cliente-location {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .cliente-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .data-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            border-radius: 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .data-badge.ok { 
+            background: linear-gradient(135deg, var(--success) 0%, #4caf50 100%);
+        }
+        .data-badge.proximo { 
+            background: linear-gradient(135deg, var(--warning) 0%, #ff9800 100%);
+        }
+        .data-badge.urgente { 
+            background: linear-gradient(135deg, #ff6d00 0%, #ff3d00 100%);
+        }
+        .data-badge.atrasado { 
+            background: linear-gradient(135deg, var(--danger) 0%, #d32f2f 100%);
+        }
+
+        .cliente-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        /* Inline Actions */
+        .inline-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .inline-action:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: var(--space-6);
+        }
+
+        .modal.active {
+            display: flex;
+            animation: modalFadeIn var(--transition-normal) ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(8px);
+            }
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideUp var(--transition-normal) ease-out;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            transition: all var(--transition-fast);
+            height: 46px;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            height: auto;
+            cursor: text;
+            padding: var(--space-3);
+        }
+
+        .form-input:hover,
+        .form-select:hover {
+            border-color: var(--primary);
+            background: var(--bg-elevated);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-elevated);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        /* Custom select arrow */
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: flex-end;
+            margin-top: var(--space-6);
+        }
+
+        /* Status Steps Inline */
+        .status-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-left: var(--space-2);
+        }
+
+        .status-mini-steps {
+            display: flex;
+            gap: var(--space-1);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .status-dot.active {
+            background: var(--primary);
+            transform: scale(1.5);
+        }
+
+        .status-dot:hover {
+            background: var(--primary-light);
+            transform: scale(1.3);
+        }
+
+        /* Status Steps Modal */
+        .status-steps {
+            display: flex;
+            gap: var(--space-2);
+            margin: var(--space-5) 0;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            padding: var(--space-2) var(--space-3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .step:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+        }
+
+        .step.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Alerta de campos obrigatórios */
+        .campos-obrigatorios-alert {
+            background: rgba(26, 115, 232, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+            margin-bottom: var(--space-5);
+            display: none;
+        }
+
+        .campos-obrigatorios-alert.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .alert-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        .alert-message {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        /* Campos obrigatórios - destaque visual */
+        .form-group.required .form-label {
+            color: var(--primary);
+        }
+
+        .form-group.required .form-label::after {
+            content: '*';
+            color: var(--danger);
+            margin-left: 4px;
+            font-weight: bold;
+        }
+
+        .form-group.required .form-input,
+        .form-group.required .form-textarea {
+            border-color: var(--primary);
+        }
+
+        .form-group.required.error .form-input,
+        .form-group.required.error .form-textarea {
+            border-color: var(--danger);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: var(--space-6);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: var(--space-2);
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-secondary);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-5);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: var(--space-1);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--bg-card);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-2);
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .timeline-content {
+            background: var(--bg-secondary);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-secondary);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            background: var(--bg-card);
+            border: 1px solid var(--border-secondary);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            max-width: 350px;
+            transform: translateX(500px);
+            transition: transform var(--transition-normal) ease-out;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .toast-icon.success {
+            background: rgba(52, 168, 83, 0.1);
+            color: var(--success);
+        }
+
+        .toast-icon.warning {
+            background: rgba(251, 188, 4, 0.1);
+            color: var(--warning);
+        }
+
+        .toast-icon.error {
+            background: rgba(234, 67, 53, 0.1);
+            color: var(--danger);
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        [data-theme="dark"] .loading-overlay {
+            background: rgba(28, 28, 30, 0.8);
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border-secondary);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: 2px var(--space-2);
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+        }
+
+        /* Categoria */
+        .categoria-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
+            margin-bottom: var(--space-2);
+            transition: all var(--transition-fast);
+            cursor: move;
+        }
+
+        .categoria-item:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(2px);
+        }
+
+        .categoria-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .categoria-item.drag-over {
+            border-color: var(--primary);
+            background: rgba(26, 115, 232, 0.1);
+        }
+
+        .categoria-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            flex: 1;
+        }
+
+        .categoria-cor {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-secondary);
+        }
+
+        .categoria-detalhes {
+            flex: 1;
+        }
+
+        .categoria-nome {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+            font-size: 14px;
+        }
+
+        .categoria-regras {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .categoria-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .drag-handle {
+            cursor: move;
+            color: var(--text-tertiary);
+            margin-right: var(--space-2);
+        }
+
+        /* Checkbox personalizado */
+        .form-checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .form-checkbox-group:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .form-checkbox {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkbox-custom {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-primary);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .form-checkbox input[type="checkbox"]:checked + .checkbox-custom {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox-custom i {
+            color: white;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .form-checkbox input[type="checkbox"]:checked + .checkbox-custom i {
+            opacity: 1;
+        }
+
+        .checkbox-label {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+            margin-bottom: var(--space-1);
+        }
+
+        .checkbox-description {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-16) var(--space-6);
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            opacity: 0.3;
+            margin-bottom: var(--space-5);
+            color: var(--text-tertiary);
+        }
+
+        .empty-state-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .empty-state-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-4);
+            }
+
+            .header-content {
+                height: 56px;
+                gap: var(--space-4);
+            }
+
+            .header-actions {
+                gap: var(--space-2);
+            }
+
+            .btn {
+                padding: var(--space-2) var(--space-3);
+                font-size: 13px;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .kpis-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-3);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cliente-info {
+                grid-template-columns: 1fr;
+                gap: var(--space-2);
+            }
+
+            .cliente-location,
+            .cliente-status,
+            .data-badge {
+                display: none;
+            }
+
+            .filters-main-row {
+                flex-wrap: wrap;
+                gap: var(--space-3);
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: none;
+                order: -1;
+            }
+
+            .filter-chips {
+                width: 100%;
+                justify-content: space-between;
+                order: 2;
+            }
+
+            .chip {
+                flex: 1;
+                justify-content: center;
+                font-size: 11px;
+                padding: var(--space-1) var(--space-2);
+            }
+
+            .chip i {
+                display: none;
+            }
+
+            .filters-secondary-row {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-3);
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-actions {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-2);
+            }
+
+            .filter-actions button {
+                width: 100%;
+            }
+
+            .toast {
+                left: var(--space-4);
+                right: var(--space-4);
+                bottom: var(--space-4);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        /* Focus states */
+        .btn:focus-visible,
+        .chip:focus-visible,
+        .step:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* No transition during theme change */
+        .no-transition * {
+            transition: none !important;
+        }
+
+        /* Funil Simples */
+        .funil-simples {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .funil-step {
+            width: 24px;
+            height: 5px;
+            background: var(--bg-tertiary);
+            border-radius: 2.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition-fast);
+            cursor: help;
+        }
+
+        .funil-step:hover {
+            transform: scale(1.2);
+        }
+
+        .funil-step.filled {
+            background: var(--primary);
+        }
+
+        .funil-step.active {
+            background: var(--primary);
+            animation: pulse 2s infinite;
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Shortcut hints */
+        .shortcut-hint {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .btn:hover .shortcut-hint {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <span class="logo-text">Prospecção Premium</span>
+                </a>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="abrirModalCategorias()">
+                        <i class="fas fa-tags"></i>
+                        <span class="hide-mobile">Categorias</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="abrirModal()" style="position: relative; padding: var(--space-3) var(--space-6);">
+                        <i class="fas fa-plus"></i>
+                        Novo Cliente
+                        <span class="shortcut-hint">Ctrl + N</span>
+                    </button>
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- KPIs Dashboard -->
+    <section class="kpis-section">
+        <div class="container">
+            <div class="kpis-grid">
+                <div class="kpi-card" onclick="abrirKPISimples('total')">
+                    <div class="kpi-header">
+                        <div class="kpi-icon total">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="totalClientes">0</div>
+                    <div class="kpi-label">Total de Clientes</div>
+                    <div class="kpi-trend neutral" id="trendTotal">
+                        <i class="fas fa-minus"></i>
+                        <span>0%</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card danger" onclick="abrirKPISimples('negociando')">
+                    <div class="kpi-header">
+                        <div class="kpi-icon hot">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="clientesQuentes">0</div>
+                    <div class="kpi-label">Negociando</div>
+                    <div class="kpi-trend neutral" id="trendQuentes">
+                        <i class="fas fa-minus"></i>
+                        <span>0%</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card warning" onclick="abrirKPISimples('urgentes')">
+                    <div class="kpi-header">
+                        <div class="kpi-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="contatosPendentes">0</div>
+                    <div class="kpi-label">Contatos Urgentes</div>
+                    <div class="kpi-trend neutral" id="trendPendentes">
+                        <i class="fas fa-minus"></i>
+                        <span>0%</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card success" onclick="abrirKPISimples('conversao')">
+                    <div class="kpi-header">
+                        <div class="kpi-icon success">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="taxaConversao">0%</div>
+                    <div class="kpi-label">Taxa de Conversão</div>
+                    <div class="kpi-trend neutral" id="trendConversao">
+                        <i class="fas fa-minus"></i>
+                        <span>0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Inteligente -->
+    <section class="container">
+        <div class="dashboard-grid">
+            <!-- Funil de Vendas -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="dashboard-icon funil">
+                        <i class="fas fa-funnel-dollar"></i>
+                    </div>
+                    <div class="dashboard-title">Funil de Vendas</div>
+                </div>
+                <div id="funilVendas" style="font-size: 13px;">
+                    <!-- Funil será inserido aqui -->
+                </div>
+            </div>
+
+            <!-- Clientes Esquecidos -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="dashboard-icon esquecidos">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="dashboard-title">Clientes Esquecidos</div>
+                </div>
+                <div id="clientesEsquecidos" style="max-height: 180px; overflow-y: auto;">
+                    <!-- Clientes esquecidos serão inseridos aqui -->
+                </div>
+            </div>
+
+            <!-- Onde Estou Perdendo -->
+            <div class="dashboard-card" id="perdendoClientes" style="display: none;">
+                <div class="dashboard-header">
+                    <div class="dashboard-icon perdendo">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="dashboard-title">Gargalos no Funil</div>
+                </div>
+                <div id="perdendoLista">
+                    <!-- Análise será inserida aqui -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions Bar -->
+    <section class="container" style="margin-bottom: var(--space-8);">
+        <div class="quick-actions" id="quickActions">
+            <!-- Quick actions serão inseridas aqui -->
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="container" style="margin-bottom: var(--space-6);">
+        <div class="filters-section">
+            <div class="filters-main-row">
+                <div class="search-container" style="flex: 1;">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Buscar clientes por nome ou cidade..." onkeypress="if(event.key === 'Enter') aplicarFiltros()">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="filter-chips">
+                    <div class="chip active" onclick="filtrarPor('todos')">
+                        <i class="fas fa-th"></i>
+                        Todos
+                    </div>
+                    <div class="chip" onclick="filtrarPor('atrasados')">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Atrasados
+                    </div>
+                    <div class="chip" onclick="filtrarPor('hoje')">
+                        <i class="fas fa-bell"></i>
+                        Hoje
+                    </div>
+                    <div class="chip" onclick="filtrarPor('semana')">
+                        <i class="fas fa-calendar-week"></i>
+                        Semana
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filters-secondary-row">
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="form-select" id="statusFilter" onchange="aplicarFiltros()">
+                        <option value="">Todos os Status</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Estado</label>
+                    <select class="form-select" id="estadoFilter" onchange="aplicarFiltros()">
+                        <option value="">Todos Estados</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Data Inicial</label>
+                    <input type="date" class="form-input" id="dataInicial" onchange="validarDatas()">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Data Final</label>
+                    <input type="date" class="form-input" id="dataFinal" onchange="validarDatas()">
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" onclick="limparFiltros()" style="height: 46px;">
+                        <i class="fas fa-eraser"></i>
+                        Limpar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table -->
+    <section class="container" style="padding-bottom: var(--space-20);">
+        <div class="table-container">
+            <div id="clientesLista">
+                <!-- Clientes serão inseridos aqui -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer style="text-align: center; padding: var(--space-10) 0 var(--space-20); color: var(--text-tertiary); font-size: 12px;">
+        <p>Prospecção Premium © 2025 - Sistema de Gestão de Clientes</p>
+    </footer>
+
+    <!-- Modal KPI Simples -->
+    <div class="kpi-simple-modal" id="modalKPISimples">
+        <div class="kpi-simple-content">
+            <div class="kpi-simple-header">
+                <h2 class="kpi-simple-title" id="kpiSimpleTitle">Detalhes</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharKPISimples()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="kpi-simple-metric">
+                <div class="kpi-simple-number" id="kpiSimpleNumber">0</div>
+                <div class="kpi-simple-label" id="kpiSimpleLabel">Label</div>
+            </div>
+            
+            <div class="kpi-simple-stats" id="kpiSimpleStats">
+                <!-- Stats serão inseridas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cliente -->
+    <div class="modal" id="modalCliente">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalClienteTitle">Novo Cliente</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="formCliente" onsubmit="salvarCliente(event)">
+                <input type="hidden" id="clienteId">
+                
+                <div class="form-group">
+                    <label class="form-label">Nome da Empresa</label>
+                    <input type="text" class="form-input" id="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cidade</label>
+                    <input type="text" class="form-input" id="cidade" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Estado</label>
+                    <select class="form-select" id="estado" required>
+                        <option value="">Selecione...</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes -->
+    <div class="modal" id="modalDetalhes">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="detalheNome">Detalhes do Cliente</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharModalDetalhes()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="status-steps" id="statusSteps">
+                <!-- Status steps serão inseridos aqui -->
+            </div>
+            
+            <div class="campos-obrigatorios-alert" id="camposObrigatoriosAlert">
+                <div class="alert-content">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <div class="alert-message">
+                        Para este status, você precisa definir o próximo contato e adicionar uma observação.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group" id="proximoContatoGroup">
+                <label class="form-label">Próximo Contato</label>
+                <input type="date" class="form-input" id="proximoContato">
+            </div>
+            
+            <div class="form-group" id="observacaoGroup">
+                <label class="form-label">Observação</label>
+                <textarea class="form-textarea" id="novaObservacao" placeholder="Digite uma observação..."></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+                <button class="btn btn-primary" onclick="salvarMudancaStatus()">
+                    <i class="fas fa-save"></i>
+                    Salvar Mudança
+                </button>
+                <button class="btn btn-secondary" onclick="adicionarObservacaoAvulsa()" id="btnObservacaoAvulsa">
+                    <i class="fas fa-comment"></i>
+                    Adicionar Observação
+                </button>
+            </div>
+            
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text-secondary);">
+                <i class="fas fa-history"></i> Histórico
+            </h3>
+            
+            <div class="timeline" id="timeline">
+                <!-- Timeline será inserida aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Categorias -->
+    <div class="modal" id="modalCategorias">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Gerenciar Categorias</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharModalCategorias()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Categorias de Status</label>
+                <div id="categoriasList">
+                    <!-- Categorias serão listadas aqui -->
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nova Categoria</label>
+                <div style="display: flex; gap: 12px; align-items: flex-end; margin-bottom: 12px;">
+                    <div style="flex: 1;">
+                        <input type="text" class="form-input" id="novaCategoria" placeholder="Nome da categoria">
+                    </div>
+                    <input type="color" class="form-input" id="novaCor" value="#1a73e8" style="width: 60px; height: 40px; cursor: pointer;">
+                </div>
+                
+                <div class="form-checkbox-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="novaObrigatoria" checked>
+                        <div class="checkbox-custom">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="checkbox-label">
+                            <div class="checkbox-title">Exigir próximo contato e observação?</div>
+                            <div class="checkbox-description">Quando marcado, esta categoria obrigará o preenchimento dos campos</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <button class="btn btn-primary" style="margin-top: 12px;" onclick="adicionarCategoria()">
+                    <i class="fas fa-plus"></i>
+                    Adicionar Categoria
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Categoria -->
+    <div class="modal" id="modalEditarCategoria">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Editar Categoria</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharModalEditarCategoria()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="salvarEdicaoCategoria(event)">
+                <input type="hidden" id="editCategoriaId">
+                
+                <div class="form-group">
+                    <label class="form-label">Nome</label>
+                    <input type="text" class="form-input" id="editNome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cor</label>
+                    <input type="color" class="form-input" id="editCor" style="height: 40px; cursor: pointer;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Regras dos Campos</label>
+                    <div class="form-checkbox-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="editObrigatoria">
+                            <div class="checkbox-custom">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="checkbox-label">
+                                <div class="checkbox-title">Exigir próximo contato e observação?</div>
+                                <div class="checkbox-description">Quando marcado, esta categoria obrigará o preenchimento dos campos</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalEditarCategoria()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Próximo Status Rápido -->
+    <div class="modal" id="modalProximoStatus">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Avançar Status</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharModalProximoStatus()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="proximoStatusInfo" style="text-align: center; padding: var(--space-4) 0;">
+                <!-- Info será inserida aqui -->
+            </div>
+            
+            <div class="campos-obrigatorios-alert show" id="camposRapidosAlert" style="display: none;">
+                <div class="alert-content">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <div class="alert-message">
+                        Este status exige próximo contato e observação.
+                    </div>
+                </div>
+            </div>
+            
+            <form id="formProximoStatus" onsubmit="confirmarProximoStatus(event)">
+                <div class="form-group" id="rapidoContatoGroup" style="display: none;">
+                    <label class="form-label">Próximo Contato</label>
+                    <input type="date" class="form-input" id="rapidoContato">
+                </div>
+                
+                <div class="form-group" id="rapidoObservacaoGroup" style="display: none;">
+                    <label class="form-label">Observação</label>
+                    <textarea class="form-textarea" id="rapidoObservacao" placeholder="Motivo da mudança..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalProximoStatus()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Avançar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Agendar Rápido -->
+    <div class="modal" id="modalAgendarRapido">
+        <div class="modal-content" style="max-width: 350px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Agendar Contato</h2>
+                <button class="btn btn-icon btn-ghost" onclick="fecharModalAgendarRapido()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="confirmarAgendarRapido(event)">
+                <div class="form-group">
+                    <label class="form-label">Próximo contato em:</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-bottom: var(--space-3);">
+                        <button type="button" class="btn btn-secondary" onclick="setDiasAgenda(1)">1 dia</button>
+                        <button type="button" class="btn btn-secondary" onclick="setDiasAgenda(3)">3 dias</button>
+                        <button type="button" class="btn btn-secondary" onclick="setDiasAgenda(7)">7 dias</button>
+                        <button type="button" class="btn btn-secondary" onclick="setDiasAgenda(15)">15 dias</button>
+                        <button type="button" class="btn btn-secondary" onclick="setDiasAgenda(30)">30 dias</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Ou escolha uma data:</label>
+                    <input type="date" class="form-input" id="dataAgendarRapido" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalAgendarRapido()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-calendar-check"></i>
+                        Agendar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="toast-message" id="toastMessage">Ação realizada com sucesso!</div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyD9Q0TO8JVj9XN8gANWFndbRQ6QMUVkURs",
+            authDomain: "sistema-financeiro-teste.firebaseapp.com",
+            projectId: "sistema-financeiro-teste",
+            storageBucket: "sistema-financeiro-teste.firebasestorage.app",
+            messagingSenderId: "177026780096",
+            appId: "1:177026780096:web:c1fcf41675036b2f3f9625"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Estado da aplicação
+        let clientes = [];
+        let clientesFiltrados = [];
+        let clienteAtual = null;
+        let categorias = [];
+        let kpiAnterior = null;
+        let filtroAtual = 'todos';
+        let statusParaAtualizar = null;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', async () => {
+            initTheme();
+            await carregarCategorias();
+            await carregarClientes();
+            setupFilters();
+            setupShortcuts();
+            carregarKPIAnterior();
+            
+            // Inicializar contadores dos chips
+            setTimeout(() => {
+                atualizarContadoresChips();
+            }, 500);
+        });
+
+        // Theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            document.body.classList.add('no-transition');
+            
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            setTimeout(() => {
+                document.body.classList.remove('no-transition');
+            }, 50);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Shortcuts
+        function setupShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Ctrl + N = Novo Cliente
+                if (e.ctrlKey && e.key === 'n') {
+                    e.preventDefault();
+                    abrirModal();
+                }
+                
+                // Ctrl + F = Focar na busca
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                }
+                
+                // Esc = Fechar modais
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal.active, .kpi-simple-modal.active').forEach(modal => {
+                        modal.classList.remove('active');
+                    });
+                    clienteAtual = null;
+                    statusPendente = null;
+                    statusAnterior = null;
+                }
+            });
+        }
+
+        // Carregar KPI anterior
+        async function carregarKPIAnterior() {
+            try {
+                const doc = await db.collection('kpi_historico').doc('ultimo').get();
+                if (doc.exists) {
+                    kpiAnterior = doc.data();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar KPI anterior:', error);
+            }
+        }
+
+        // Salvar KPI atual  
+        async function salvarKPIAtual() {
+            const kpiAtual = {
+                total: clientes.length,
+                negociando: clientes.filter(c => ['Proposta Enviada', 'Negociando'].includes(c.status)).length,
+                pendentes: clientes.filter(c => {
+                    const dias = getDiasRestantes(c.proximoContato);
+                    return dias !== null && dias <= 0;
+                }).length,
+                fechados: clientes.filter(c => c.status === 'Fechado').length,
+                data: new Date().toISOString()
+            };
+
+            try {
+                await db.collection('kpi_historico').doc('ultimo').set(kpiAtual);
+            } catch (error) {
+                console.error('Erro ao salvar KPI:', error);
+            }
+        }
+
+        // Carregar Categorias
+        async function carregarCategorias() {
+            try {
+                const snapshot = await db.collection('categorias').orderBy('ordem', 'asc').get();
+                
+                if (snapshot.empty) {
+                    const categoriasDefault = [
+                        { nome: 'Cliente Novo', cor: '#4285f4', ordem: 1, obrigatoria: true },
+                        { nome: 'Contato Feito', cor: '#34a853', ordem: 2, obrigatoria: true },
+                        { nome: 'Amostra Enviada', cor: '#fbbc04', ordem: 3, obrigatoria: true },
+                        { nome: 'Proposta Enviada', cor: '#ea4335', ordem: 4, obrigatoria: true },
+                        { nome: 'Negociando', cor: '#ff6d00', ordem: 5, obrigatoria: true },
+                        { nome: 'Fechado', cor: '#34a853', ordem: 6, obrigatoria: false },
+                        { nome: 'Perdido', cor: '#ea4335', ordem: 7, obrigatoria: false }
+                    ];
+                    
+                    const batch = db.batch();
+                    categoriasDefault.forEach(cat => {
+                        const docRef = db.collection('categorias').doc();
+                        batch.set(docRef, cat);
+                    });
+                    await batch.commit();
+                    await carregarCategorias();
+                    return;
+                }
+                
+                categorias = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.obrigatoria === undefined) {
+                        data.obrigatoria = !['Fechado', 'Perdido'].includes(data.nome);
+                    }
+                    categorias.push({ id: doc.id, ...data });
+                });
+                
+                // Atualizar filtro de status
+                atualizarFiltroStatus();
+                
+            } catch (error) {
+                console.error('Erro ao carregar categorias:', error);
+            }
+        }
+
+        // Atualizar filtro de status
+        function atualizarFiltroStatus() {
+            const statusFilter = document.getElementById('statusFilter');
+            statusFilter.innerHTML = '<option value="">Todos Status</option>';
+            
+            categorias.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.nome;
+                option.textContent = cat.nome;
+                statusFilter.appendChild(option);
+            });
+        }
+
+        // Setup dos filtros
+        function setupFilters() {
+            let searchTimeout;
+            
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => aplicarFiltros(), 300);
+            });
+        }
+
+        // Validar datas
+        function validarDatas() {
+            const dataInicial = document.getElementById('dataInicial').value;
+            const dataFinal = document.getElementById('dataFinal').value;
+            
+            if (dataInicial && dataFinal) {
+                if (new Date(dataInicial) > new Date(dataFinal)) {
+                    document.getElementById('dataFinal').value = dataInicial;
+                    mostrarToast('Data final ajustada para não ser anterior à inicial', 'warning');
+                }
+            }
+            
+            aplicarFiltros();
+        }
+
+        // Limpar filtros
+        function limparFiltros() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('estadoFilter').value = '';
+            document.getElementById('dataInicial').value = '';
+            document.getElementById('dataFinal').value = '';
+            
+            // Reset chips
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            document.querySelector('.chip[onclick="filtrarPor(\'todos\')"]').classList.add('active');
+            
+            filtroAtual = 'todos';
+            aplicarFiltros();
+        }
+
+        // Carregar Clientes
+        async function carregarClientes() {
+            mostrarLoading();
+            try {
+                const snapshot = await db.collection('clientes').orderBy('dataCadastro', 'desc').get();
+                clientes = [];
+                
+                snapshot.forEach(doc => {
+                    clientes.push({ id: doc.id, ...doc.data() });
+                });
+                
+                await atualizarKPIs();
+                aplicarFiltros();
+                atualizarContadoresChips();
+                
+            } catch (error) {
+                console.error('Erro ao carregar:', error);
+            } finally {
+                esconderLoading();
+            }
+        }
+
+        // Atualizar KPIs
+        async function atualizarKPIs() {
+            // Total de clientes
+            const total = clientes.length;
+            document.getElementById('totalClientes').textContent = total;
+            
+            // Clientes negociando (Proposta Enviada + Negociando)
+            const negociando = clientes.filter(c => 
+                ['Proposta Enviada', 'Negociando'].includes(c.status)
+            ).length;
+            document.getElementById('clientesQuentes').textContent = negociando;
+            
+            // Contatos urgentes (atrasados + hoje)
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            
+            const urgentes = clientes.filter(c => {
+                if (!c.proximoContato) return false;
+                const dias = getDiasRestantes(c.proximoContato);
+                return dias !== null && dias <= 0; // Atrasados + Hoje
+            }).length;
+            document.getElementById('contatosPendentes').textContent = urgentes;
+            
+            // Taxa de conversão (Fechados / Total) * 100
+            const fechados = clientes.filter(c => c.status === 'Fechado').length;
+            const taxa = total > 0 ? Math.round((fechados / total) * 100) : 0;
+            document.getElementById('taxaConversao').textContent = taxa + '%';
+            
+            // Calcular tendências comparando com KPI anterior
+            if (kpiAnterior) {
+                // Tendência Total
+                calcularTendencia('trendTotal', total, kpiAnterior.total || 0);
+                
+                // Tendência Negociando
+                calcularTendencia('trendQuentes', negociando, kpiAnterior.negociando || 0);
+                
+                // Tendência Urgentes
+                calcularTendencia('trendPendentes', urgentes, kpiAnterior.pendentes || 0);
+                
+                // Tendência Taxa de Conversão
+                const taxaAnterior = kpiAnterior.total > 0 ? 
+                    Math.round((kpiAnterior.fechados / kpiAnterior.total) * 100) : 0;
+                calcularTendencia('trendConversao', taxa, taxaAnterior);
+            }
+            
+            // Atualizar Dashboard
+            atualizarFunilVendas();
+            atualizarClientesEsquecidos();
+            analisarOndePerdendoClientes();
+            
+            await salvarKPIAtual();
+        }
+
+        function calcularTendencia(elementId, valorAtual, valorAnterior) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let percentual = 0;
+            let tendencia = 'neutral';
+            
+            // Calcular percentual de mudança
+            if (valorAnterior > 0) {
+                percentual = Math.round(((valorAtual - valorAnterior) / valorAnterior) * 100);
+            } else if (valorAtual > 0) {
+                percentual = 100;
+                tendencia = 'up';
+            }
+            
+            // Determinar tendência
+            if (percentual > 0) {
+                tendencia = 'up';
+            } else if (percentual < 0) {
+                tendencia = 'down';
+            }
+            
+            // Para KPI de urgentes, inverter lógica (menos é melhor)
+            if (elementId === 'trendPendentes' && percentual !== 0) {
+                tendencia = percentual > 0 ? 'down' : 'up';
+            }
+            
+            element.className = `kpi-trend ${tendencia}`;
+            
+            if (tendencia === 'up') {
+                element.innerHTML = `<i class="fas fa-arrow-up"></i><span>+${Math.abs(percentual)}%</span>`;
+            } else if (tendencia === 'down') {
+                element.innerHTML = `<i class="fas fa-arrow-down"></i><span>${percentual}%</span>`;
+            } else {
+                element.innerHTML = `<i class="fas fa-minus"></i><span>0%</span>`;
+            }
+        }
+
+        // Funil de Vendas
+        function atualizarFunilVendas() {
+            const container = document.getElementById('funilVendas');
+            const totalClientes = clientes.length;
+            
+            if (totalClientes === 0) {
+                container.innerHTML = '<p style="color: var(--text-tertiary); text-align: center;">Adicione clientes para visualizar o funil</p>';
+                return;
+            }
+            
+            const funilData = categorias.map(categoria => {
+                const quantidade = clientes.filter(c => c.status === categoria.nome).length;
+                const percentual = totalClientes > 0 ? Math.round((quantidade / totalClientes) * 100) : 0;
+                
+                return {
+                    nome: categoria.nome,
+                    cor: categoria.cor,
+                    quantidade,
+                    percentual
+                };
+            }).filter(item => item.quantidade > 0);
+            
+            container.innerHTML = funilData.map(item => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-secondary);">
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: ${item.cor};"></div>
+                        <span style="font-weight: 500; font-size: 14px;">${item.nome}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 100px; height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden;">
+                            <div style="width: ${item.percentual}%; height: 100%; background: ${item.cor}; transition: width 0.5s ease;"></div>
+                        </div>
+                        <span style="font-weight: 700; color: ${item.cor}; font-size: 14px; min-width: 30px; text-align: right;">${item.quantidade}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Clientes Esquecidos
+        function atualizarClientesEsquecidos() {
+            const container = document.getElementById('clientesEsquecidos');
+            const agora = new Date();
+            
+            const clientesEsquecidos = clientes
+                .filter(cliente => {
+                    if (['Fechado', 'Perdido'].includes(cliente.status)) return false;
+                    
+                    // Verificar se tem data de status válida
+                    if (!cliente.dataStatus) return false;
+                    
+                    const dataStatus = new Date(cliente.dataStatus);
+                    if (isNaN(dataStatus.getTime())) return false;
+                    
+                    const diasParado = Math.floor((agora - dataStatus) / (1000 * 60 * 60 * 24));
+                    
+                    return diasParado >= 5; // 5+ dias no mesmo status
+                })
+                .map(cliente => {
+                    const dataStatus = new Date(cliente.dataStatus);
+                    const diasParado = Math.floor((agora - dataStatus) / (1000 * 60 * 60 * 24));
+                    
+                    return {
+                        ...cliente,
+                        diasParado
+                    };
+                })
+                .sort((a, b) => b.diasParado - a.diasParado)
+                .slice(0, 5); // Top 5
+            
+            if (clientesEsquecidos.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-tertiary); text-align: center; padding: 20px;">Todos os clientes estão sendo acompanhados! 👍</p>';
+                return;
+            }
+            
+            container.innerHTML = clientesEsquecidos.map(cliente => {
+                const classeUrgencia = cliente.diasParado >= 10 ? 'critico' : 'alerta';
+                const corBadge = cliente.diasParado >= 10 ? 'var(--danger)' : 'var(--warning)';
+                
+                return `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-secondary); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s;" onclick="abrirDetalhes('${cliente.id}')" onmouseover="this.style.background='var(--bg-tertiary)'" onmouseout="this.style.background='var(--bg-secondary)'">
+                        <div>
+                            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${cliente.nome}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">${cliente.status} • ${cliente.cidade}-${cliente.estado}</div>
+                        </div>
+                        <div style="background: ${corBadge}20; color: ${corBadge}; padding: 6px 12px; border-radius: 14px; font-size: 12px; font-weight: 600;">
+                            ${cliente.diasParado}d parado
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Onde Perdendo Clientes
+        function analisarOndePerdendoClientes() {
+            const perdendoContainer = document.getElementById('perdendoClientes');
+            const listaContainer = document.getElementById('perdendoLista');
+            
+            const analise = [];
+            
+            categorias.forEach(categoria => {
+                const clientesParados = clientes.filter(c => {
+                    if (c.status !== categoria.nome) return false;
+                    if (['Fechado', 'Perdido'].includes(c.status)) return false;
+                    
+                    const dataStatus = new Date(c.dataStatus);
+                    const diasParado = Math.floor((new Date() - dataStatus) / (1000 * 60 * 60 * 24));
+                    
+                    return diasParado >= 7;
+                }).length;
+                
+                const clientesPerdidosDaqui = clientes.filter(c => {
+                    if (c.status !== 'Perdido') return false;
+                    
+                    const historico = c.historico || [];
+                    const ultimaMudanca = historico
+                        .filter(h => h.acao.includes('Status alterado'))
+                        .sort((a, b) => new Date(b.data) - new Date(a.data))[0];
+                    
+                    return ultimaMudanca && ultimaMudanca.acao.includes(`"${categoria.nome}" para "Perdido"`);
+                }).length;
+                
+                if (clientesParados > 0 || clientesPerdidosDaqui > 0) {
+                    analise.push({
+                        status: categoria.nome,
+                        parados: clientesParados,
+                        perdidos: clientesPerdidosDaqui,
+                        total: clientesParados + clientesPerdidosDaqui
+                    });
+                }
+            });
+            
+            if (analise.length === 0) {
+                perdendoContainer.style.display = 'none';
+                return;
+            }
+            
+            analise.sort((a, b) => b.total - a.total);
+            
+            perdendoContainer.style.display = 'block';
+            listaContainer.innerHTML = analise.slice(0, 3).map(item => `
+                <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--danger);">
+                    <div style="font-weight: 600; margin-bottom: 4px;">${item.status}</div>
+                    <div style="display: flex; gap: 16px; font-size: 12px; color: var(--text-secondary);">
+                        <span><strong style="color: var(--danger);">${item.parados}</strong> parados 7+ dias</span>
+                        <span><strong style="color: var(--danger);">${item.perdidos}</strong> perdidos</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filtrar por chip
+        function filtrarPor(tipo) {
+            filtroAtual = tipo;
+            
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.classList.remove('active');
+                // Remover contadores antigos
+                const counter = chip.querySelector('.chip-counter');
+                if (counter) counter.remove();
+            });
+            event.target.closest('.chip').classList.add('active');
+            
+            aplicarFiltros();
+            
+            // Adicionar contadores aos chips
+            setTimeout(() => {
+                atualizarContadoresChips();
+            }, 100);
+        }
+        
+        // Atualizar contadores dos chips
+        function atualizarContadoresChips() {
+            const chips = {
+                'atrasados': clientes.filter(c => {
+                    const dias = getDiasRestantes(c.proximoContato);
+                    return dias !== null && dias < 0;
+                }).length,
+                'hoje': clientes.filter(c => getDiasRestantes(c.proximoContato) === 0).length,
+                'semana': clientes.filter(c => {
+                    const dias = getDiasRestantes(c.proximoContato);
+                    return dias !== null && dias >= 0 && dias <= 7;
+                }).length
+            };
+            
+            Object.keys(chips).forEach(tipo => {
+                const chip = document.querySelector(`.chip[onclick="filtrarPor('${tipo}')"]`);
+                if (chip && chips[tipo] > 0 && filtroAtual !== tipo) {
+                    // Remover contador antigo se existir
+                    const oldCounter = chip.querySelector('.chip-counter');
+                    if (oldCounter) oldCounter.remove();
+                    
+                    // Adicionar novo contador
+                    const counter = document.createElement('span');
+                    counter.className = 'chip-counter';
+                    counter.textContent = chips[tipo];
+                    chip.appendChild(counter);
+                }
+            });
+        }
+
+        // Aplicar filtros
+        function aplicarFiltros() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const estadoFilter = document.getElementById('estadoFilter').value;
+            const dataInicial = document.getElementById('dataInicial').value;
+            const dataFinal = document.getElementById('dataFinal').value;
+            
+            clientesFiltrados = clientes.filter(cliente => {
+                // Filtro de busca
+                if (search && !cliente.nome.toLowerCase().includes(search) && 
+                    !cliente.cidade.toLowerCase().includes(search)) {
+                    return false;
+                }
+                
+                // Filtro de status
+                if (statusFilter && cliente.status !== statusFilter) {
+                    return false;
+                }
+                
+                // Filtro de estado
+                if (estadoFilter && cliente.estado !== estadoFilter) {
+                    return false;
+                }
+                
+                // Filtro de data
+                if (dataInicial || dataFinal) {
+                    const clienteData = new Date(cliente.dataCadastro);
+                    if (dataInicial && clienteData < new Date(dataInicial)) {
+                        return false;
+                    }
+                    if (dataFinal && clienteData > new Date(dataFinal + 'T23:59:59')) {
+                        return false;
+                    }
+                }
+                
+                // Filtro por tipo (chips)
+                if (filtroAtual === 'atrasados') {
+                    const dias = getDiasRestantes(cliente.proximoContato);
+                    return dias !== null && dias < 0;
+                } else if (filtroAtual === 'hoje') {
+                    const dias = getDiasRestantes(cliente.proximoContato);
+                    return dias === 0;
+                } else if (filtroAtual === 'semana') {
+                    const dias = getDiasRestantes(cliente.proximoContato);
+                    return dias !== null && dias >= 0 && dias <= 7;
+                }
+                
+                return true;
+            });
+            
+            renderizarClientes();
+            atualizarQuickActions();
+        }
+
+        // Quick Actions
+        function atualizarQuickActions() {
+            const container = document.getElementById('quickActions');
+            const atrasados = clientesFiltrados.filter(c => {
+                const dias = getDiasRestantes(c.proximoContato);
+                return dias !== null && dias < 0;
+            }).length;
+            
+            const hoje = clientesFiltrados.filter(c => getDiasRestantes(c.proximoContato) === 0).length;
+            
+            const semAgenda = clientesFiltrados.filter(c => 
+                !['Fechado', 'Perdido'].includes(c.status) && !c.proximoContato
+            ).length;
+            
+            container.innerHTML = '';
+            
+            if (atrasados > 0) {
+                container.innerHTML += `
+                    <div class="quick-action-item" onclick="filtrarPor('atrasados')" style="color: var(--danger);">
+                        <div class="quick-action-number">${atrasados}</div>
+                        <div class="quick-action-label">atrasados</div>
+                    </div>
+                `;
+            }
+            
+            if (hoje > 0) {
+                container.innerHTML += `
+                    <div class="quick-action-item" onclick="filtrarPor('hoje')" style="color: var(--warning);">
+                        <div class="quick-action-number">${hoje}</div>
+                        <div class="quick-action-label">para hoje</div>
+                    </div>
+                `;
+            }
+            
+            if (semAgenda > 0) {
+                container.innerHTML += `
+                    <div class="quick-action-item" style="color: var(--text-secondary);">
+                        <div class="quick-action-number">${semAgenda}</div>
+                        <div class="quick-action-label">sem agenda</div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML += `
+                <div style="flex: 1;"></div>
+                <div style="font-size: 13px; color: var(--text-tertiary); font-weight: 500;">
+                    <span style="color: var(--text-primary); font-weight: 700;">${clientesFiltrados.length}</span> de ${clientes.length} clientes
+                </div>
+            `;
+        }
+
+        // Renderizar Clientes
+        function renderizarClientes() {
+            const container = document.getElementById('clientesLista');
+            
+            if (clientesFiltrados.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="empty-state-title">Nenhum cliente encontrado</div>
+                        <div class="empty-state-description">Adicione seu primeiro cliente ou ajuste os filtros</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = clientesFiltrados.map(cliente => {
+                const diasRestantes = getDiasRestantes(cliente.proximoContato);
+                const classData = getClasseData(diasRestantes);
+                const statusInfo = getStatusInfo(cliente.status);
+                const tempoStatus = getTempoStatus(cliente.dataStatus);
+                
+                return `
+                    <div class="cliente-row" onclick="abrirDetalhes('${cliente.id}')">
+                        <div class="cliente-info">
+                            <div class="cliente-nome-group">
+                                <div class="cliente-nome">${cliente.nome}</div>
+                                <div class="cliente-tags">
+                                    <div class="funil-simples">
+                                        ${renderizarFunilMini(cliente.status)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cliente-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${cliente.cidade} - ${cliente.estado}
+                            </div>
+                            <div class="cliente-status">
+                                <span class="status-badge" style="background: ${statusInfo}20; color: ${statusInfo};">
+                                    ${cliente.status}
+                                </span>
+                            </div>
+                            <div>
+                                ${cliente.proximoContato ? `
+                                    <span class="data-badge ${classData}">
+                                        <i class="fas fa-calendar"></i>
+                                        ${formatarDataBadge(diasRestantes)}
+                                    </span>
+                                ` : '<span style="color: var(--text-tertiary); font-size: 12px;">Não agendado</span>'}
+                            </div>
+                            <div class="cliente-actions" onclick="event.stopPropagation()">
+                                <button class="inline-action" onclick="proximoStatus('${cliente.id}')" title="Próximo Status">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                                <button class="inline-action" onclick="agendarRapido('${cliente.id}')" title="Agendar">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </button>
+                                <button class="inline-action" onclick="excluirCliente('${cliente.id}')" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderizar funil mini
+        function renderizarFunilMini(statusAtual) {
+            return categorias.map(cat => {
+                const indexAtual = categorias.findIndex(c => c.nome === statusAtual);
+                const indexCat = categorias.findIndex(c => c.nome === cat.nome);
+                
+                const isActive = cat.nome === statusAtual;
+                const isPassed = indexAtual > indexCat;
+                
+                return `<div class="funil-step ${isActive ? 'active' : isPassed ? 'filled' : ''}" title="${cat.nome}" style="${isActive || isPassed ? `background: ${cat.cor}` : ''}"></div>`;
+            }).join('');
+        }
+
+        // Próximo status rápido
+        let clienteProximoStatus = null;
+        let proximoStatusNome = null;
+        
+        async function proximoStatus(clienteId) {
+            event.stopPropagation();
+            
+            const cliente = clientes.find(c => c.id === clienteId);
+            if (!cliente) return;
+            
+            const indexAtual = categorias.findIndex(c => c.nome === cliente.status);
+            if (indexAtual === -1 || indexAtual === categorias.length - 1) {
+                mostrarToast('Este cliente está no último status', 'warning');
+                return;
+            }
+            
+            clienteProximoStatus = cliente;
+            proximoStatusNome = categorias[indexAtual + 1].nome;
+            
+            // Configurar modal
+            const info = document.getElementById('proximoStatusInfo');
+            info.innerHTML = `
+                <div style="margin-bottom: var(--space-4);">
+                    <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: var(--space-2);">Cliente:</div>
+                    <div style="font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-4);">${cliente.nome}</div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-4);">
+                    <div style="text-align: center;">
+                        <div style="font-size: 12px; color: var(--text-secondary);">De:</div>
+                        <div style="padding: var(--space-2) var(--space-3); background: ${getStatusInfo(cliente.status)}20; color: ${getStatusInfo(cliente.status)}; border-radius: 16px; font-size: 14px; font-weight: 600;">
+                            ${cliente.status}
+                        </div>
+                    </div>
+                    <i class="fas fa-arrow-right" style="color: var(--text-tertiary);"></i>
+                    <div style="text-align: center;">
+                        <div style="font-size: 12px; color: var(--text-secondary);">Para:</div>
+                        <div style="padding: var(--space-2) var(--space-3); background: ${getStatusInfo(proximoStatusNome)}20; color: ${getStatusInfo(proximoStatusNome)}; border-radius: 16px; font-size: 14px; font-weight: 600;">
+                            ${proximoStatusNome}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Verificar se precisa campos obrigatórios
+            const precisaCampos = categoriaExigeCamposObrigatorios(proximoStatusNome);
+            
+            document.getElementById('camposRapidosAlert').style.display = precisaCampos ? 'block' : 'none';
+            document.getElementById('rapidoContatoGroup').style.display = precisaCampos ? 'block' : 'none';
+            document.getElementById('rapidoObservacaoGroup').style.display = precisaCampos ? 'block' : 'none';
+            
+            if (precisaCampos) {
+                document.getElementById('rapidoContatoGroup').classList.add('required');
+                document.getElementById('rapidoObservacaoGroup').classList.add('required');
+            } else {
+                document.getElementById('rapidoContatoGroup').classList.remove('required');
+                document.getElementById('rapidoObservacaoGroup').classList.remove('required');
+            }
+            
+            // Limpar campos
+            document.getElementById('rapidoContato').value = '';
+            document.getElementById('rapidoObservacao').value = '';
+            
+            document.getElementById('modalProximoStatus').classList.add('active');
+        }
+        
+        async function confirmarProximoStatus(event) {
+            event.preventDefault();
+            
+            if (!clienteProximoStatus || !proximoStatusNome) return;
+            
+            const precisaCampos = categoriaExigeCamposObrigatorios(proximoStatusNome);
+            const proximoContato = document.getElementById('rapidoContato').value;
+            const observacao = document.getElementById('rapidoObservacao').value.trim();
+            
+            if (precisaCampos) {
+                if (!proximoContato || !observacao) {
+                    mostrarToast('Preencha todos os campos obrigatórios', 'warning');
+                    return;
+                }
+            }
+            
+            try {
+                const historico = clienteProximoStatus.historico || [];
+                historico.push({
+                    acao: `Status alterado de "${clienteProximoStatus.status}" para "${proximoStatusNome}"`,
+                    observacao: observacao || 'Atualização rápida',
+                    data: new Date().toISOString()
+                });
+                
+                const updateData = {
+                    status: proximoStatusNome,
+                    dataStatus: new Date().toISOString(),
+                    ultimaAcao: new Date().toISOString(),
+                    historico: historico
+                };
+                
+                if (proximoContato) {
+                    updateData.proximoContato = proximoContato;
+                }
+                
+                await db.collection('clientes').doc(clienteProximoStatus.id).update(updateData);
+                
+                fecharModalProximoStatus();
+                await carregarClientes();
+                mostrarToast(`Status atualizado para ${proximoStatusNome}`, 'success');
+                
+            } catch (error) {
+                console.error('Erro ao atualizar status:', error);
+                mostrarToast('Erro ao atualizar status', 'error');
+            }
+        }
+        
+        function fecharModalProximoStatus() {
+            document.getElementById('modalProximoStatus').classList.remove('active');
+            clienteProximoStatus = null;
+            proximoStatusNome = null;
+        }
+
+        // Agendar rápido
+        let clienteAgendarRapido = null;
+        
+        async function agendarRapido(clienteId) {
+            event.stopPropagation();
+            
+            const cliente = clientes.find(c => c.id === clienteId);
+            if (!cliente) return;
+            
+            clienteAgendarRapido = cliente;
+            
+            // Configurar data mínima (hoje)
+            const hoje = new Date().toISOString().split('T')[0];
+            document.getElementById('dataAgendarRapido').min = hoje;
+            document.getElementById('dataAgendarRapido').value = '';
+            
+            document.getElementById('modalAgendarRapido').classList.add('active');
+        }
+        
+        function setDiasAgenda(dias) {
+            const data = new Date();
+            data.setDate(data.getDate() + dias);
+            document.getElementById('dataAgendarRapido').value = data.toISOString().split('T')[0];
+        }
+        
+        async function confirmarAgendarRapido(event) {
+            event.preventDefault();
+            
+            if (!clienteAgendarRapido) return;
+            
+            const data = document.getElementById('dataAgendarRapido').value;
+            
+            try {
+                await db.collection('clientes').doc(clienteAgendarRapido.id).update({
+                    proximoContato: data,
+                    ultimaAcao: new Date().toISOString()
+                });
+                
+                fecharModalAgendarRapido();
+                await carregarClientes();
+                
+                const dias = getDiasRestantes(data);
+                mostrarToast(`Contato agendado para ${formatarDataBadge(dias)}`, 'success');
+                
+            } catch (error) {
+                console.error('Erro ao agendar:', error);
+                mostrarToast('Erro ao agendar contato', 'error');
+            }
+        }
+        
+        function fecharModalAgendarRapido() {
+            document.getElementById('modalAgendarRapido').classList.remove('active');
+            clienteAgendarRapido = null;
+        }
+
+        // Modal KPI Simples
+        function abrirKPISimples(tipo) {
+            const modal = document.getElementById('modalKPISimples');
+            const title = document.getElementById('kpiSimpleTitle');
+            const number = document.getElementById('kpiSimpleNumber');
+            const label = document.getElementById('kpiSimpleLabel');
+            const stats = document.getElementById('kpiSimpleStats');
+            
+            switch(tipo) {
+                case 'total':
+                    title.textContent = 'Total de Clientes';
+                    number.textContent = clientes.length;
+                    number.style.color = 'var(--primary)';
+                    label.textContent = 'Clientes cadastrados no sistema';
+                    
+                    const ativos = clientes.filter(c => !['Fechado', 'Perdido'].includes(c.status)).length;
+                    const fechados = clientes.filter(c => c.status === 'Fechado').length;
+                    const perdidos = clientes.filter(c => c.status === 'Perdido').length;
+                    const novos30dias = clientes.filter(c => {
+                        const dataCadastro = new Date(c.dataCadastro);
+                        const diasAtras = (new Date() - dataCadastro) / (1000 * 60 * 60 * 24);
+                        return diasAtras <= 30;
+                    }).length;
+                    
+                    stats.innerHTML = `
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${ativos}</div>
+                            <div class="kpi-simple-stat-label">Em Prospecção</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${fechados}</div>
+                            <div class="kpi-simple-stat-label">Fechados</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${perdidos}</div>
+                            <div class="kpi-simple-stat-label">Perdidos</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${novos30dias}</div>
+                            <div class="kpi-simple-stat-label">Últimos 30 dias</div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'negociando':
+                    const negociando = clientes.filter(c => ['Proposta Enviada', 'Negociando'].includes(c.status));
+                    title.textContent = 'Clientes Negociando';
+                    number.textContent = negociando.length;
+                    number.style.color = 'var(--danger)';
+                    label.textContent = 'Oportunidades quentes em negociação';
+                    
+                    const propostas = clientes.filter(c => c.status === 'Proposta Enviada').length;
+                    const negociacao = clientes.filter(c => c.status === 'Negociando').length;
+                    const comAgenda = negociando.filter(c => c.proximoContato).length;
+                    const semAgenda = negociando.length - comAgenda;
+                    
+                    stats.innerHTML = `
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${propostas}</div>
+                            <div class="kpi-simple-stat-label">Propostas Enviadas</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${negociacao}</div>
+                            <div class="kpi-simple-stat-label">Em Negociação</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${comAgenda}</div>
+                            <div class="kpi-simple-stat-label">Com Agendamento</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${semAgenda}</div>
+                            <div class="kpi-simple-stat-label">Sem Agendamento</div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'urgentes':
+                    const urgentes = clientes.filter(c => {
+                        const dias = getDiasRestantes(c.proximoContato);
+                        return dias !== null && dias <= 0;
+                    });
+                    title.textContent = 'Contatos Urgentes';
+                    number.textContent = urgentes.length;
+                    number.style.color = 'var(--warning)';
+                    label.textContent = 'Clientes que precisam de atenção imediata';
+                    
+                    const atrasados = urgentes.filter(c => getDiasRestantes(c.proximoContato) < 0).length;
+                    const hoje = urgentes.filter(c => getDiasRestantes(c.proximoContato) === 0).length;
+                    const semContato = clientes.filter(c => 
+                        !['Fechado', 'Perdido'].includes(c.status) && !c.proximoContato
+                    ).length;
+                    
+                    stats.innerHTML = `
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${atrasados}</div>
+                            <div class="kpi-simple-stat-label">Atrasados</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${hoje}</div>
+                            <div class="kpi-simple-stat-label">Para Hoje</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${urgentes.length}</div>
+                            <div class="kpi-simple-stat-label">Total Urgentes</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${semContato}</div>
+                            <div class="kpi-simple-stat-label">Sem Agenda</div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'conversao':
+                    const total = clientes.length;
+                    const fechadosConv = clientes.filter(c => c.status === 'Fechado').length;
+                    const perdidosConv = clientes.filter(c => c.status === 'Perdido').length;
+                    const taxa = total > 0 ? Math.round((fechadosConv / total) * 100) : 0;
+                    const taxaSucesso = (fechadosConv + perdidosConv) > 0 ? 
+                        Math.round((fechadosConv / (fechadosConv + perdidosConv)) * 100) : 0;
+                    
+                    title.textContent = 'Taxa de Conversão';
+                    number.textContent = taxa + '%';
+                    number.style.color = 'var(--success)';
+                    label.textContent = 'Percentual de clientes fechados';
+                    
+                    stats.innerHTML = `
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${fechadosConv}</div>
+                            <div class="kpi-simple-stat-label">Fechados</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${perdidosConv}</div>
+                            <div class="kpi-simple-stat-label">Perdidos</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${total}</div>
+                            <div class="kpi-simple-stat-label">Total</div>
+                        </div>
+                        <div class="kpi-simple-stat">
+                            <div class="kpi-simple-stat-value">${taxaSucesso}%</div>
+                            <div class="kpi-simple-stat-label">Taxa Sucesso</div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function fecharKPISimples() {
+            document.getElementById('modalKPISimples').classList.remove('active');
+        }
+
+        // Status Info
+        function getStatusInfo(status) {
+            const categoria = categorias.find(c => c.nome === status);
+            return categoria ? categoria.cor : '#6b7280';
+        }
+
+        // Editar Cliente
+        function editarCliente(clienteId) {
+            event.stopPropagation();
+            
+            const cliente = clientes.find(c => c.id === clienteId);
+            if (!cliente) return;
+            
+            document.getElementById('modalClienteTitle').textContent = 'Editar Cliente';
+            document.getElementById('clienteId').value = cliente.id;
+            document.getElementById('nome').value = cliente.nome;
+            document.getElementById('cidade').value = cliente.cidade;
+            document.getElementById('estado').value = cliente.estado;
+            
+            document.getElementById('modalCliente').classList.add('active');
+        }
+
+        // Salvar Cliente
+        async function salvarCliente(event) {
+            event.preventDefault();
+            
+            const clienteId = document.getElementById('clienteId').value;
+            const cliente = {
+                nome: document.getElementById('nome').value,
+                cidade: document.getElementById('cidade').value,
+                estado: document.getElementById('estado').value,
+                ultimaAcao: new Date().toISOString()
+            };
+            
+            try {
+                mostrarLoading();
+                
+                if (clienteId) {
+                    await db.collection('clientes').doc(clienteId).update(cliente);
+                    mostrarToast('Cliente atualizado!', 'success');
+                } else {
+                    cliente.status = categorias[0]?.nome || 'Cliente Novo';
+                    cliente.dataStatus = new Date().toISOString();
+                    cliente.proximoContato = null;
+                    cliente.dataCadastro = new Date().toISOString();
+                    cliente.historico = [];
+                    
+                    await db.collection('clientes').add(cliente);
+                    mostrarToast('Cliente adicionado!', 'success');
+                }
+                
+                fecharModal();
+                await carregarClientes();
+                
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                mostrarToast('Erro ao salvar cliente', 'error');
+            } finally {
+                esconderLoading();
+            }
+        }
+
+        // Estado de mudança de status
+        let statusPendente = null;
+        let statusAnterior = null;
+
+        function categoriaExigeCamposObrigatorios(nomeStatus) {
+            const categoria = categorias.find(c => c.nome === nomeStatus);
+            return categoria ? (categoria.obrigatoria === true) : false;
+        }
+
+        // Abrir Detalhes
+        function abrirDetalhes(clienteId) {
+            clienteAtual = clientes.find(c => c.id === clienteId);
+            if (!clienteAtual) return;
+            
+            statusPendente = null;
+            statusAnterior = null;
+            
+            document.getElementById('detalheNome').textContent = clienteAtual.nome;
+            document.getElementById('proximoContato').value = clienteAtual.proximoContato || '';
+            document.getElementById('novaObservacao').value = '';
+            
+            // Renderizar status steps
+            const stepsContainer = document.getElementById('statusSteps');
+            stepsContainer.innerHTML = categorias.map(cat => `
+                <div class="step ${clienteAtual.status === cat.nome ? 'active' : ''}" 
+                     onclick="mudarStatusImediato('${cat.nome}')">
+                    ${cat.nome}
+                </div>
+            `).join('');
+            
+            resetarCamposObrigatorios();
+            renderizarTimeline();
+            
+            document.getElementById('modalDetalhes').classList.add('active');
+        }
+
+        // Mudança de status imediata
+        function mudarStatusImediato(novoStatus) {
+            if (!clienteAtual || clienteAtual.status === novoStatus) return;
+            
+            statusAnterior = clienteAtual.status;
+            statusPendente = novoStatus;
+            
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.toggle('active', step.textContent.trim() === novoStatus);
+            });
+            
+            if (categoriaExigeCamposObrigatorios(novoStatus)) {
+                mostrarCamposObrigatorios(novoStatus);
+            } else {
+                salvarStatusFinal(novoStatus);
+            }
+        }
+
+        // Mostrar campos obrigatórios
+        function mostrarCamposObrigatorios(novoStatus) {
+            const alert = document.getElementById('camposObrigatoriosAlert');
+            alert.classList.add('show');
+            
+            const proximoContatoGroup = document.getElementById('proximoContatoGroup');
+            const observacaoGroup = document.getElementById('observacaoGroup');
+            
+            proximoContatoGroup.classList.add('required');
+            observacaoGroup.classList.add('required');
+            
+            const observacaoField = document.getElementById('novaObservacao');
+            observacaoField.placeholder = `Observação sobre a mudança de "${statusAnterior}" para "${novoStatus}"...`;
+            
+            const proximoContato = document.getElementById('proximoContato');
+            if (!proximoContato.value) {
+                proximoContato.focus();
+            } else if (!observacaoField.value) {
+                observacaoField.focus();
+            }
+            
+            const btnSalvar = document.querySelector('button[onclick="salvarMudancaStatus()"]');
+            const btnObservacao = document.getElementById('btnObservacaoAvulsa');
+            btnSalvar.style.display = 'inline-flex';
+            btnObservacao.style.display = 'none';
+        }
+
+        // Resetar campos obrigatórios
+        function resetarCamposObrigatorios() {
+            const alert = document.getElementById('camposObrigatoriosAlert');
+            const proximoContatoGroup = document.getElementById('proximoContatoGroup');
+            const observacaoGroup = document.getElementById('observacaoGroup');
+            
+            alert.classList.remove('show');
+            proximoContatoGroup.classList.remove('required', 'error');
+            observacaoGroup.classList.remove('required', 'error');
+            
+            document.getElementById('novaObservacao').placeholder = 'Digite uma observação...';
+            
+            const btnSalvar = document.querySelector('button[onclick="salvarMudancaStatus()"]');
+            const btnObservacao = document.getElementById('btnObservacaoAvulsa');
+            btnSalvar.style.display = 'none';
+            btnObservacao.style.display = 'inline-flex';
+        }
+
+        // Salvar mudança de status
+        async function salvarMudancaStatus() {
+            if (!clienteAtual || !statusPendente) return;
+            
+            const proximoContato = document.getElementById('proximoContato').value;
+            const observacao = document.getElementById('novaObservacao').value.trim();
+            
+            let temErro = false;
+            
+            if (categoriaExigeCamposObrigatorios(statusPendente)) {
+                if (!proximoContato) {
+                    document.getElementById('proximoContatoGroup').classList.add('error');
+                    temErro = true;
+                } else {
+                    document.getElementById('proximoContatoGroup').classList.remove('error');
+                }
+                
+                if (!observacao) {
+                    document.getElementById('observacaoGroup').classList.add('error');
+                    temErro = true;
+                } else {
+                    document.getElementById('observacaoGroup').classList.remove('error');
+                }
+                
+                if (temErro) {
+                    mostrarToast('Preencha todos os campos obrigatórios', 'warning');
+                    return;
+                }
+            }
+            
+            try {
+                const historico = clienteAtual.historico || [];
+                historico.push({
+                    acao: `Status alterado de "${statusAnterior}" para "${statusPendente}"`,
+                    observacao: observacao || '',
+                    data: new Date().toISOString()
+                });
+                
+                const updateData = {
+                    status: statusPendente,
+                    dataStatus: new Date().toISOString(),
+                    ultimaAcao: new Date().toISOString(),
+                    historico: historico
+                };
+                
+                if (proximoContato) {
+                    updateData.proximoContato = proximoContato;
+                }
+                
+                await db.collection('clientes').doc(clienteAtual.id).update(updateData);
+                
+                clienteAtual.status = statusPendente;
+                clienteAtual.historico = historico;
+                clienteAtual.proximoContato = proximoContato;
+                
+                statusPendente = null;
+                statusAnterior = null;
+                document.getElementById('novaObservacao').value = '';
+                
+                resetarCamposObrigatorios();
+                renderizarTimeline();
+                await carregarClientes();
+                
+                mostrarToast('Status atualizado!', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao atualizar status:', error);
+                mostrarToast('Erro ao atualizar status', 'error');
+                
+                document.querySelectorAll('.step').forEach(step => {
+                    step.classList.toggle('active', step.textContent.trim() === clienteAtual.status);
+                });
+            }
+        }
+
+        // Salvar status final
+        async function salvarStatusFinal(novoStatus) {
+            try {
+                const observacao = document.getElementById('novaObservacao').value.trim();
+                const proximoContato = document.getElementById('proximoContato').value;
+                
+                const historico = clienteAtual.historico || [];
+                historico.push({
+                    acao: `Status alterado de "${clienteAtual.status}" para "${novoStatus}"`,
+                    observacao: observacao || `Cliente ${novoStatus.toLowerCase()}`,
+                    data: new Date().toISOString()
+                });
+                
+                const updateData = {
+                    status: novoStatus,
+                    dataStatus: new Date().toISOString(),
+                    ultimaAcao: new Date().toISOString(),
+                    historico: historico
+                };
+                
+                updateData.proximoContato = proximoContato || null;
+                
+                await db.collection('clientes').doc(clienteAtual.id).update(updateData);
+                
+                clienteAtual.status = novoStatus;
+                clienteAtual.historico = historico;
+                
+                if (!proximoContato) {
+                    document.getElementById('proximoContato').value = '';
+                }
+                document.getElementById('novaObservacao').value = '';
+                
+                renderizarTimeline();
+                await carregarClientes();
+                
+                if (novoStatus === 'Fechado') {
+                    mostrarToast('Cliente fechado! Parabéns! 🎉', 'success');
+                } else {
+                    mostrarToast(`Status alterado para ${novoStatus}`, 'success');
+                }
+                
+            } catch (error) {
+                console.error('Erro ao finalizar status:', error);
+                mostrarToast('Erro ao atualizar status', 'error');
+                
+                document.querySelectorAll('.step').forEach(step => {
+                    step.classList.toggle('active', step.textContent.trim() === clienteAtual.status);
+                });
+            }
+        }
+
+        // Adicionar observação avulsa
+        async function adicionarObservacaoAvulsa() {
+            if (!clienteAtual) return;
+            
+            const observacao = document.getElementById('novaObservacao').value.trim();
+            if (!observacao) {
+                mostrarToast('Digite uma observação', 'warning');
+                return;
+            }
+            
+            try {
+                const historico = clienteAtual.historico || [];
+                historico.push({
+                    acao: 'Observação adicionada',
+                    observacao: observacao,
+                    data: new Date().toISOString()
+                });
+                
+                await db.collection('clientes').doc(clienteAtual.id).update({
+                    historico: historico,
+                    ultimaAcao: new Date().toISOString()
+                });
+                
+                clienteAtual.historico = historico;
+                document.getElementById('novaObservacao').value = '';
+                renderizarTimeline();
+                mostrarToast('Observação adicionada!', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao adicionar observação:', error);
+                mostrarToast('Erro ao adicionar observação', 'error');
+            }
+        }
+
+        // Renderizar Timeline
+        function renderizarTimeline() {
+            const timeline = document.getElementById('timeline');
+            const historico = clienteAtual.historico || [];
+            
+            if (historico.length === 0) {
+                timeline.innerHTML = '<p style="color: var(--text-tertiary);">Nenhuma ação registrada ainda.</p>';
+                return;
+            }
+            
+            timeline.innerHTML = historico
+                .sort((a, b) => new Date(b.data) - new Date(a.data))
+                .map(item => `
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <div class="timeline-title">${item.acao}</div>
+                            <div class="timeline-date">${formatarData(item.data)}</div>
+                        </div>
+                        ${item.observacao ? `
+                            <div class="timeline-content">
+                                ${item.observacao}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+        }
+
+        // Excluir Cliente
+        async function excluirCliente(clienteId) {
+            event.stopPropagation();
+            
+            if (!confirm('Deseja realmente excluir este cliente?')) return;
+            
+            try {
+                mostrarLoading();
+                await db.collection('clientes').doc(clienteId).delete();
+                await carregarClientes();
+                mostrarToast('Cliente excluído', 'success');
+            } catch (error) {
+                console.error('Erro ao excluir:', error);
+                mostrarToast('Erro ao excluir cliente', 'error');
+            } finally {
+                esconderLoading();
+            }
+        }
+
+        // Gerenciar Categorias
+        function abrirModalCategorias() {
+            renderizarCategorias();
+            document.getElementById('modalCategorias').classList.add('active');
+        }
+
+        function renderizarCategorias() {
+            const container = document.getElementById('categoriasList');
+            container.innerHTML = categorias.map((cat, index) => {
+                const isObrigatoria = cat.obrigatoria === true;
+                
+                return `
+                    <div class="categoria-item" draggable="true" data-categoria-id="${cat.id}" data-ordem="${index}">
+                        <div class="categoria-info">
+                            <i class="fas fa-grip-vertical drag-handle"></i>
+                            <div class="categoria-cor" style="background: ${cat.cor};"></div>
+                            <div class="categoria-detalhes">
+                                <div class="categoria-nome">${cat.nome}</div>
+                                <div class="categoria-regras">
+                                    ${isObrigatoria ? 'Campos obrigatórios' : 'Campos opcionais'}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="categoria-actions">
+                            <button class="btn btn-icon btn-secondary btn-small" onclick="editarCategoria('${cat.id}')" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-icon btn-secondary btn-small" onclick="excluirCategoria('${cat.id}')" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Configurar drag and drop
+            setupDragAndDrop();
+        }
+
+        // Drag and Drop
+        let draggedElement = null;
+        
+        function setupDragAndDrop() {
+            const items = document.querySelectorAll('.categoria-item');
+            
+            items.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragenter', handleDragEnter);
+                item.addEventListener('dragleave', handleDragLeave);
+            });
+        }
+        
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+        
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            
+            // Remover todas as classes de drag-over
+            document.querySelectorAll('.categoria-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+        }
+        
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+        
+        function handleDragEnter(e) {
+            if (this !== draggedElement) {
+                this.classList.add('drag-over');
+            }
+        }
+        
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+        
+        async function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedElement !== this) {
+                const allItems = Array.from(document.querySelectorAll('.categoria-item'));
+                const draggedIndex = allItems.indexOf(draggedElement);
+                const targetIndex = allItems.indexOf(this);
+                
+                // Reordenar array de categorias
+                const [removed] = categorias.splice(draggedIndex, 1);
+                categorias.splice(targetIndex, 0, removed);
+                
+                // Atualizar ordem no banco
+                await salvarOrdemCategorias();
+                
+                // Re-renderizar
+                renderizarCategorias();
+            }
+            
+            return false;
+        }
+        
+        async function salvarOrdemCategorias() {
+            try {
+                const batch = db.batch();
+                
+                categorias.forEach((cat, index) => {
+                    const docRef = db.collection('categorias').doc(cat.id);
+                    batch.update(docRef, { ordem: index + 1 });
+                });
+                
+                await batch.commit();
+                await carregarCategorias();
+                await carregarClientes(); // Para atualizar o funil
+                mostrarToast('Ordem das categorias atualizada', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao salvar ordem:', error);
+                mostrarToast('Erro ao reordenar categorias', 'error');
+            }
+        }
+
+        function editarCategoria(categoriaId) {
+            const categoria = categorias.find(c => c.id === categoriaId);
+            if (!categoria) return;
+            
+            document.getElementById('editCategoriaId').value = categoria.id;
+            document.getElementById('editNome').value = categoria.nome;
+            document.getElementById('editCor').value = categoria.cor;
+            document.getElementById('editObrigatoria').checked = categoria.obrigatoria === true;
+            
+            document.getElementById('modalEditarCategoria').classList.add('active');
+        }
+
+        async function salvarEdicaoCategoria(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('editCategoriaId').value;
+            const nome = document.getElementById('editNome').value.trim();
+            const cor = document.getElementById('editCor').value;
+            const obrigatoria = document.getElementById('editObrigatoria').checked;
+            
+            try {
+                await db.collection('categorias').doc(id).update({
+                    nome: nome,
+                    cor: cor,
+                    obrigatoria: obrigatoria
+                });
+                
+                fecharModalEditarCategoria();
+                await carregarCategorias();
+                await carregarClientes();
+                mostrarToast('Categoria atualizada!', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao editar categoria:', error);
+                mostrarToast('Erro ao editar categoria', 'error');
+            }
+        }
+
+        async function adicionarCategoria() {
+            const nome = document.getElementById('novaCategoria').value.trim();
+            const cor = document.getElementById('novaCor').value;
+            const obrigatoria = document.getElementById('novaObrigatoria').checked;
+            
+            if (!nome) {
+                mostrarToast('Digite o nome da categoria', 'warning');
+                return;
+            }
+            
+            try {
+                const ordem = categorias.length + 1;
+                await db.collection('categorias').add({
+                    nome: nome,
+                    cor: cor,
+                    ordem: ordem,
+                    obrigatoria: obrigatoria
+                });
+                
+                document.getElementById('novaCategoria').value = '';
+                document.getElementById('novaObrigatoria').checked = true;
+                
+                await carregarCategorias();
+                renderizarCategorias();
+                mostrarToast('Categoria criada!', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao adicionar categoria:', error);
+                mostrarToast('Erro ao adicionar categoria', 'error');
+            }
+        }
+
+        async function excluirCategoria(categoriaId) {
+            const categoria = categorias.find(c => c.id === categoriaId);
+            
+            const clientesComCategoria = clientes.filter(c => c.status === categoria.nome);
+            if (clientesComCategoria.length > 0) {
+                mostrarToast(`Não pode excluir! ${clientesComCategoria.length} clientes usando esta categoria.`, 'error');
+                return;
+            }
+            
+            if (!confirm(`Excluir categoria "${categoria.nome}"?`)) return;
+            
+            try {
+                await db.collection('categorias').doc(categoriaId).delete();
+                await carregarCategorias();
+                renderizarCategorias();
+                mostrarToast('Categoria excluída', 'success');
+            } catch (error) {
+                console.error('Erro ao excluir categoria:', error);
+                mostrarToast('Erro ao excluir categoria', 'error');
+            }
+        }
+
+        // Funções Auxiliares
+        function getDiasRestantes(data) {
+            if (!data) return null;
+            
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            
+            const proximoContato = new Date(data);
+            proximoContato.setHours(0, 0, 0, 0);
+            
+            const diffTime = proximoContato - hoje;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function getClasseData(dias) {
+            if (dias === null) return 'ok';
+            if (dias < 0) return 'atrasado';
+            if (dias === 0) return 'urgente';
+            if (dias <= 3) return 'proximo';
+            return 'ok';
+        }
+
+        function formatarDataBadge(dias) {
+            if (dias === null) return 'Não agendado';
+            if (dias < 0) return `${Math.abs(dias)}d atrasado`;
+            if (dias === 0) return 'HOJE';
+            if (dias === 1) return 'Amanhã';
+            return `${dias} dias`;
+        }
+
+        function formatarData(dataISO) {
+            if (!dataISO) return 'Nunca';
+            
+            const data = new Date(dataISO);
+            const agora = new Date();
+            const diff = agora - data;
+            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (dias === 0) return 'Hoje';
+            if (dias === 1) return 'Ontem';
+            if (dias < 7) return `${dias} dias atrás`;
+            
+            return data.toLocaleDateString('pt-BR');
+        }
+
+        function getTempoStatus(dataStatus) {
+            if (!dataStatus) return 'Novo';
+            
+            const agora = new Date();
+            const data = new Date(dataStatus);
+            const diff = agora - data;
+            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (dias === 0) return 'Hoje';
+            if (dias === 1) return '1 dia';
+            if (dias < 7) return `${dias} dias`;
+            if (dias < 30) return `${Math.floor(dias / 7)} sem`;
+            return `${Math.floor(dias / 30)} mês`;
+        }
+
+        // Modal Functions
+        function abrirModal() {
+            document.getElementById('modalClienteTitle').textContent = 'Novo Cliente';
+            document.getElementById('clienteId').value = '';
+            document.getElementById('formCliente').reset();
+            document.getElementById('modalCliente').classList.add('active');
+        }
+
+        function fecharModal() {
+            document.getElementById('modalCliente').classList.remove('active');
+        }
+
+        function fecharModalDetalhes() {
+            document.getElementById('modalDetalhes').classList.remove('active');
+            clienteAtual = null;
+        }
+
+        function fecharModalCategorias() {
+            document.getElementById('modalCategorias').classList.remove('active');
+        }
+
+        function fecharModalEditarCategoria() {
+            document.getElementById('modalEditarCategoria').classList.remove('active');
+        }
+
+        // Loading
+        function mostrarLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+
+        function esconderLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+
+        // Toast
+        function mostrarToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+            
+            // Configurar ícone e cor
+            icon.className = `toast-icon ${type}`;
+            const icons = {
+                success: 'fa-check',
+                error: 'fa-times',
+                warning: 'fa-exclamation'
+            };
+            icon.innerHTML = `<i class="fas ${icons[type]}"></i>`;
+            
+            msg.textContent = message;
+            
+            // Mostrar
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // Click outside modal
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal') || event.target.classList.contains('kpi-simple-modal')) {
+                event.target.classList.remove('active');
+                // Resetar estado se fechar modal de detalhes
+                if (event.target.id === 'modalDetalhes') {
+                    clienteAtual = null;
+                    statusPendente = null;
+                    statusAnterior = null;
+                }
+            }
+        }
+    </script>
+</body>
+</html>  
